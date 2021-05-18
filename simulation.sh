@@ -33,10 +33,19 @@ while getopts ":r:s:d:w:" opt; do
     esac
 done
 
-if [[ ${reference} == '' || ${search_graph} == '' || ${dest_dir} == '' ]];then
+if [[ ${reference} == '' || ${search_graph} == '' || ${dest_dir} == '' || ${wg} == '' ]];then
   >&2 echo "Usage: ${0} -r reference -s search_graph -d dest_dir -w wg"
   exit 1
 fi
+
+for f in ${reference} ${search_graph} ${wg}
+do
+  if [ ! -f ${f} ]
+  then
+    >&2 echo "${f} does not exist."
+    exit 1
+  fi
+done
 
 mkdir -p ${dest_dir}
 mkdir -p ${dest_dir}/tmp
